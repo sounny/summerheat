@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Standard HTML5 doctype and language declaration -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Page title describing this tutorial -->
+        <title>GeoJSON Tutorial - Working with Geographic Data</title>
+
+        <!-- External stylesheet links -->
+        <!-- Custom CSS styles for the map application -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- Leaflet CSS for map styling, controls, and default appearance -->
+        <link rel="stylesheet" href="lib/leaflet/dist/leaflet.css">
+        
+        <!--[if IE<9]>
+            <!-- Fallback CSS for older Internet Explorer versions (IE 8 and below) -->
+            <link rel="stylesheet" href="css/style.ie.css">
+        <![endif]-->
+
+        <!-- Internal styles for this specific tutorial page -->
+        <style>
+            /* Ensure the map container takes up most of the viewport */
+            #mapid {
+                height: 80vh;
+                width: 100%;
+                margin: 10px auto;
+            }
+            
+            /* Style the tutorial description section */
+            .tutorial-info {
+                padding: 20px;
+                background-color: #f5f5f5;
+                border-left: 4px solid #4CAF50;
+                margin: 10px;
+            }
+            
+            /* Style the tutorial title */
+            .tutorial-info h1 {
+                color: #388E3C;
+                margin-top: 0;
+            }
+            
+            /* Style for feature explanation list */
+            .feature-list {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 10px;
+                margin-top: 15px;
+            }
+            
+            .feature-item {
+                background-color: #fff;
+                padding: 10px;
+                border-radius: 5px;
+                border: 1px solid #ddd;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Tutorial information section explaining what this demo shows -->
+        <div class="tutorial-info">
+            <h1>GeoJSON Tutorial</h1>
+            <p><strong>What this tutorial demonstrates:</strong></p>
+            <p>This tutorial shows how to work with GeoJSON data in Leaflet maps, including different geometry types and styling options.</p>
+            
+            <div class="feature-list">
+                <div class="feature-item">
+                    <strong>Point Features:</strong> Baseball stadiums (Coors Field, Busch Field) as point markers
+                </div>
+                <div class="feature-item">
+                    <strong>LineString Features:</strong> Two colored line features showing how to draw paths
+                </div>
+                <div class="feature-item">
+                    <strong>Polygon Features:</strong> State boundaries colored by political party (Republican=red, Democrat=blue)
+                </div>
+                <div class="feature-item">
+                    <strong>Custom Styling:</strong> Different colors, weights, and opacities for various features
+                </div>
+                <div class="feature-item">
+                    <strong>Interactive Popups:</strong> Click on features to see popup content with details
+                </div>
+                <div class="feature-item">
+                    <strong>Conditional Rendering:</strong> Features filtered by properties (show_on_map)
+                </div>
+                <div class="feature-item">
+                    <strong>Custom Markers:</strong> Circle markers with custom styling instead of default pins
+                </div>
+                <div class="feature-item">
+                    <strong>Data-Driven Styling:</strong> Colors based on feature properties (political affiliation)
+                </div>
+            </div>
+            
+            <p><em>Note: This tutorial requires the 'map' variable to be defined. You may need to add basic map initialization code.</em></p>
+        </div>
+        
+        <!-- Main container for the interactive Leaflet map -->
+        <!-- The 'mapid' is referenced in the JavaScript to initialize the map -->
+        <div id="mapid"></div>
+        
+        <!-- External JavaScript libraries and scripts -->
+        <!-- Leaflet JavaScript library - the core mapping functionality -->
+        <script type="text/javascript" src="lib/leaflet/dist/leaflet-src.js"></script>
+        
+        <!-- Basic map initialization since geojsonTutorial.js assumes 'map' exists -->
+        <script type="text/javascript">
+            // Initialize the map first (required for geojsonTutorial.js to work)
+            // Center the map on the continental United States to show all features
+            var map = L.map('mapid').setView([40, -100], 4);
+
+            // Add OpenStreetMap tile layer as the base map
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 18,
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+        </script>
+        
+        <!-- Tutorial script that demonstrates GeoJSON features -->
+        <!-- This script will add various GeoJSON features to the map -->
+        <script type="text/javascript" src="js/geojsonTutorial.js"></script>
+        
+        <!-- Attribution note for any icons or resources used -->
+        <!--Forward and Reverse icons created by scott desmond @ https://thenounproject.com/icon/arrow-forward-2352161/-->
+    </body>
+</html>

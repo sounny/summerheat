@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Standard HTML5 doctype and language declaration -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Page title describing this tutorial -->
+        <title>Leaflet Quickstart Tutorial - Basic Map Features</title>
+
+        <!-- External stylesheet links -->
+        <!-- Custom CSS styles for the map application -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- Leaflet CSS for map styling, controls, and default appearance -->
+        <link rel="stylesheet" href="lib/leaflet/dist/leaflet.css">
+        
+        <!--[if IE<9]>
+            <!-- Fallback CSS for older Internet Explorer versions (IE 8 and below) -->
+            <link rel="stylesheet" href="css/style.ie.css">
+        <![endif]-->
+
+        <!-- Internal styles for this specific tutorial page -->
+        <style>
+            /* Ensure the map container takes up most of the viewport */
+            #mapid {
+                height: 80vh;
+                width: 100%;
+                margin: 10px auto;
+            }
+            
+            /* Style the tutorial description section */
+            .tutorial-info {
+                padding: 20px;
+                background-color: #f5f5f5;
+                border-left: 4px solid #2196F3;
+                margin: 10px;
+            }
+            
+            /* Style the tutorial title */
+            .tutorial-info h1 {
+                color: #1976D2;
+                margin-top: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Tutorial information section explaining what this demo shows -->
+        <div class="tutorial-info">
+            <h1>Leaflet Quickstart Tutorial</h1>
+            <p><strong>What this tutorial demonstrates:</strong></p>
+            <ul>
+                <li><strong>Basic Map Creation:</strong> Creates a map centered on London with zoom level 13</li>
+                <li><strong>Tile Layer:</strong> Loads OpenStreetMap tiles as the base layer</li>
+                <li><strong>Marker:</strong> Places a simple marker on the map</li>
+                <li><strong>Circle:</strong> Draws a red circle with 500m radius</li>
+                <li><strong>Polygon:</strong> Creates a triangular polygon shape</li>
+                <li><strong>Popups:</strong> Adds interactive popups to all features</li>
+                <li><strong>Click Events:</strong> Shows coordinates when you click anywhere on the map</li>
+            </ul>
+            <p><em>Try clicking on the markers, shapes, and anywhere on the map to see the interactive features!</em></p>
+        </div>
+        
+        <!-- Main container for the interactive Leaflet map -->
+        <!-- The 'mapid' is referenced in the JavaScript to initialize the map -->
+        <div id="mapid"></div>
+        
+        <!-- External JavaScript libraries and scripts -->
+        <!-- Leaflet JavaScript library - the core mapping functionality -->
+        <script type="text/javascript" src="lib/leaflet/dist/leaflet-src.js"></script>
+        
+        <!-- Tutorial script that demonstrates basic Leaflet features -->
+        <!-- This script will create a map with markers, circles, polygons, and popups -->
+        <script type="text/javascript" src="js/quickstartTutorial.js"></script>
+        
+        <!-- Attribution note for any icons or resources used -->
+        <!--Forward and Reverse icons created by scott desmond @ https://thenounproject.com/icon/arrow-forward-2352161/-->
+    </body>
+</html>

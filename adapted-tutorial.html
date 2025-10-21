@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Standard HTML5 doctype and language declaration -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Page title describing this tutorial -->
+        <title>Adapted Tutorial - Loading External GeoJSON Data</title>
+
+        <!-- External stylesheet links -->
+        <!-- Custom CSS styles for the map application -->
+        <link rel="stylesheet" href="css/style.css">
+        <!-- Leaflet CSS for map styling, controls, and default appearance -->
+        <link rel="stylesheet" href="lib/leaflet/dist/leaflet.css">
+        
+        <!--[if IE<9]>
+            <!-- Fallback CSS for older Internet Explorer versions (IE 8 and below) -->
+            <link rel="stylesheet" href="css/style.ie.css">
+        <![endif]-->
+
+        <!-- Internal styles for this specific tutorial page -->
+        <style>
+            /* Ensure the map container takes up most of the viewport */
+            #mapid {
+                height: 80vh;
+                width: 100%;
+                margin: 10px auto;
+            }
+            
+            /* Style the tutorial description section */
+            .tutorial-info {
+                padding: 20px;
+                background-color: #f5f5f5;
+                border-left: 4px solid #FF9800;
+                margin: 10px;
+            }
+            
+            /* Style the tutorial title */
+            .tutorial-info h1 {
+                color: #F57C00;
+                margin-top: 0;
+            }
+            
+            /* Loading indicator styling */
+            .loading-info {
+                background-color: #E3F2FD;
+                padding: 15px;
+                margin: 10px;
+                border-radius: 5px;
+                border: 1px solid #2196F3;
+            }
+            
+            /* Technical details styling */
+            .technical-details {
+                background-color: #FFF3E0;
+                padding: 15px;
+                margin: 10px;
+                border-radius: 5px;
+                border: 1px solid #FF9800;
+            }
+            
+            .technical-details h3 {
+                color: #E65100;
+                margin-top: 0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Tutorial information section explaining what this demo shows -->
+        <div class="tutorial-info">
+            <h1>Adapted Tutorial - External GeoJSON Data Loading</h1>
+            <p><strong>What this tutorial demonstrates:</strong></p>
+            <ul>
+                <li><strong>External Data Loading:</strong> Fetches GeoJSON data from an external file (MegaCities.geojson)</li>
+                <li><strong>Fetch API:</strong> Uses modern JavaScript fetch() to load data asynchronously</li>
+                <li><strong>Global Map Variable:</strong> Shows proper map variable scoping and initialization</li>
+                <li><strong>Function-based Architecture:</strong> Demonstrates modular code organization</li>
+                <li><strong>Dynamic Popups:</strong> Creates popups that display all feature properties automatically</li>
+                <li><strong>Custom Markers:</strong> Uses circle markers instead of default pin markers</li>
+                <li><strong>Event Listeners:</strong> Waits for DOM to load before initializing the map</li>
+                <li><strong>World View:</strong> Centers on a global view to show international data</li>
+            </ul>
+        </div>
+        
+        <div class="loading-info">
+            <strong>📍 Data Source:</strong> This tutorial loads data about world megacities from <code>data/MegaCities.geojson</code>.
+            Each city will appear as a black circle marker with white border. Click on any marker to see detailed information about that city.
+        </div>
+        
+        <div class="technical-details">
+            <h3>🔧 Technical Implementation</h3>
+            <ul>
+                <li><strong>Map Initialization:</strong> <code>createMap()</code> function sets up the world view</li>
+                <li><strong>Data Fetching:</strong> <code>getData()</code> function uses fetch API to load GeoJSON</li>
+                <li><strong>Feature Processing:</strong> <code>onEachFeature()</code> creates dynamic popups for each city</li>
+                <li><strong>Marker Styling:</strong> Custom <code>geojsonMarkerOptions</code> for consistent appearance</li>
+                <li><strong>Event Handling:</strong> DOM content loaded event ensures proper initialization order</li>
+            </ul>
+        </div>
+        
+        <!-- Main container for the interactive Leaflet map -->
+        <!-- The 'mapid' is referenced in the adaptedTutorial.js to initialize the map -->
+        <!-- This tutorial creates a global view centered at [20, 0] with zoom level 2 -->
+        <div id="mapid"></div>
+        
+        <!-- External JavaScript libraries and scripts -->
+        <!-- Leaflet JavaScript library - the core mapping functionality -->
+        <script type="text/javascript" src="lib/leaflet/dist/leaflet-src.js"></script>
+        
+        <!-- Tutorial script that demonstrates loading external GeoJSON data -->
+        <!-- This script contains: -->
+        <!-- - createMap() function for map initialization -->
+        <!-- - getData() function for fetching external GeoJSON files -->
+        <!-- - onEachFeature() function for creating dynamic popups -->
+        <!-- - Event listener for DOM content loaded -->
+        <script type="text/javascript" src="js/adaptedTutorial.js"></script>
+        
+        <!-- Attribution note for any icons or resources used -->
+        <!--Forward and Reverse icons created by scott desmond @ https://thenounproject.com/icon/arrow-forward-2352161/-->
+    </body>
+</html>
