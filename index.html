@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Standard meta tags for character encoding and responsive design -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-            <title></title>
+        <title></title> <!-- TODO: Add a meaningful title for the summer heat map -->
 
         <!--put your external stylesheet links here-->
+        <!-- Custom CSS styles for the heat map application -->
         <link rel="stylesheet" href="css/style.css">
+        <!-- Leaflet CSS for map styling and controls -->
 		<link rel="stylesheet" href="lib/leaflet/dist/leaflet.css">
         <!--[if IE<9]>
+            <!-- Fallback CSS for older Internet Explorer versions -->
             <link rel="stylesheet" href="css/style.ie.css">
         <![endif]-->
 
@@ -19,16 +23,24 @@
 
     <body>
         <!--put your initial page content here-->
+        <!-- Main container for the interactive map -->
         <div id="mapid"></div>
+        <!-- Side panel for controls, legend, or additional information -->
         <div id="panel"></div>
         <!--you can also use this space for internal scripts;
         place these within <script> tags-->
 
         <!--put your external script links here-->
+        <!-- Leaflet JavaScript library for interactive maps -->
 		<script type="text/javascript" src="lib/leaflet/dist/leaflet-src.js"></script>
+        
+        <!-- Tutorial scripts (currently commented out) -->
         <!--<script type="text/javascript" src="js/quickstartTutorial.js"></script>-->
         <!--<script type="text/javascript" src="js/adaptedTutorial.js"></script>-->
+        
+        <!-- Main application script for the summer heat map -->
         <script type="text/javascript" src="js/main.js"></script>
+        
         <!--Forward and Reserve icons created by scott desmond @ https://thenounproject.com/icon/arrow-forward-2352161/-->
     </body>
 </html>
