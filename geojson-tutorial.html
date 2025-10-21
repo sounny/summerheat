@@ -21,40 +21,109 @@
 
         <!-- Internal styles for this specific tutorial page -->
         <style>
-            /* Ensure the map container takes up most of the viewport */
-            #mapid {
-                height: 80vh;
-                width: 100%;
-                margin: 10px auto;
-            }
-            
-            /* Style the tutorial description section */
-            .tutorial-info {
-                padding: 20px;
+            /* Reset and base styles */
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                margin: 0;
+                padding: 0;
                 background-color: #f5f5f5;
-                border-left: 4px solid #4CAF50;
-                margin: 10px;
             }
             
-            /* Style the tutorial title */
+            /* Tutorial information section - clean and minimal */
+            .tutorial-info {
+                max-width: 800px;
+                margin: 20px auto;
+                padding: 30px;
+                background-color: white;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            /* Simple title styling */
             .tutorial-info h1 {
-                color: #388E3C;
-                margin-top: 0;
+                font-size: 1.8em;
+                color: #333;
+                margin: 0 0 10px 0;
             }
             
-            /* Style for feature explanation list */
-            .feature-list {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 10px;
-                margin-top: 15px;
+            /* Subtitle or description */
+            .tutorial-info p {
+                color: #666;
+                line-height: 1.6;
+                margin-bottom: 15px;
             }
             
-            .feature-item {
-                background-color: #fff;
-                padding: 10px;
-                border-radius: 5px;
+            /* List styling */
+            .tutorial-info ul {
+                margin: 15px 0;
+                padding-left: 20px;
+            }
+            
+            .tutorial-info li {
+                margin-bottom: 8px;
+                color: #666;
+            }
+            
+            /* Map container takes up most of the viewport */
+            #mapid {
+                height: 70vh;
+                width: 100%;
+                max-width: 1200px;
+                margin: 20px auto;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            /* Code display section styling */
+            .code-section {
+                max-width: 1200px;
+                margin: 40px auto 20px auto;
+                padding: 30px;
+                background-color: white;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            .code-section h2 {
+                font-size: 1.5em;
+                color: #333;
+                margin: 0 0 20px 0;
+            }
+            
+            /* Code block container */
+            .code-block {
+                background-color: #f8f8f8;
                 border: 1px solid #ddd;
+                border-radius: 4px;
+                padding: 20px;
+                overflow-x: auto;
+                font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+            
+            /* Syntax highlighting for JavaScript */
+            .code-block .comment {
+                color: #6a9955;
+                font-style: italic;
+            }
+            
+            .code-block .keyword {
+                color: #0000ff;
+                font-weight: bold;
+            }
+            
+            .code-block .string {
+                color: #a31515;
+            }
+            
+            .code-block .number {
+                color: #098658;
+            }
+            
+            .code-block .function {
+                color: #795e26;
+            }
+            
+            .code-block .property {
+                color: #001080;
             }
         </style>
     </head>
@@ -66,39 +135,111 @@
             <p><strong>What this tutorial demonstrates:</strong></p>
             <p>This tutorial shows how to work with GeoJSON data in Leaflet maps, including different geometry types and styling options.</p>
             
-            <div class="feature-list">
-                <div class="feature-item">
-                    <strong>Point Features:</strong> Baseball stadiums (Coors Field, Busch Field) as point markers
-                </div>
-                <div class="feature-item">
-                    <strong>LineString Features:</strong> Two colored line features showing how to draw paths
-                </div>
-                <div class="feature-item">
-                    <strong>Polygon Features:</strong> State boundaries colored by political party (Republican=red, Democrat=blue)
-                </div>
-                <div class="feature-item">
-                    <strong>Custom Styling:</strong> Different colors, weights, and opacities for various features
-                </div>
-                <div class="feature-item">
-                    <strong>Interactive Popups:</strong> Click on features to see popup content with details
-                </div>
-                <div class="feature-item">
-                    <strong>Conditional Rendering:</strong> Features filtered by properties (show_on_map)
-                </div>
-                <div class="feature-item">
-                    <strong>Custom Markers:</strong> Circle markers with custom styling instead of default pins
-                </div>
-                <div class="feature-item">
-                    <strong>Data-Driven Styling:</strong> Colors based on feature properties (political affiliation)
-                </div>
-            </div>
+            <ul>
+                <li><strong>Point Features:</strong> Baseball stadiums (Coors Field, Busch Field) as point markers</li>
+                <li><strong>LineString Features:</strong> Two colored line features showing how to draw paths</li>
+                <li><strong>Polygon Features:</strong> State boundaries colored by political party (Republican=red, Democrat=blue)</li>
+                <li><strong>Custom Styling:</strong> Different colors, weights, and opacities for various features</li>
+                <li><strong>Interactive Popups:</strong> Click on features to see popup content with details</li>
+                <li><strong>Conditional Rendering:</strong> Features filtered by properties (show_on_map)</li>
+                <li><strong>Custom Markers:</strong> Circle markers with custom styling instead of default pins</li>
+                <li><strong>Data-Driven Styling:</strong> Colors based on feature properties (political affiliation)</li>
+            </ul>
             
-            <p><em>Note: This tutorial requires the 'map' variable to be defined. You may need to add basic map initialization code.</em></p>
+            <p><em>Note: This tutorial requires the 'map' variable to be defined. Basic map initialization is included below.</em></p>
         </div>
         
         <!-- Main container for the interactive Leaflet map -->
         <!-- The 'mapid' is referenced in the JavaScript to initialize the map -->
         <div id="mapid"></div>
+        
+        <!-- Code display section showing the JavaScript used in this tutorial -->
+        <div class="code-section">
+            <h2>JavaScript Code (geojsonTutorial.js)</h2>
+            <div class="code-block"><span class="comment">// Create GeoJSON feature, set as point features representing stadium.</span>
+<span class="keyword">var</span> geojsonFeature = {
+    <span class="string">"type"</span>: <span class="string">"Feature"</span>,
+    <span class="string">"properties"</span>: {
+        <span class="string">"name"</span>: <span class="string">"Coors Field"</span>,
+        <span class="string">"amenity"</span>: <span class="string">"Baseball Stadium"</span>,
+        <span class="string">"popupContent"</span>: <span class="string">"This is where the Rockies play!"</span>
+    },
+    <span class="string">"geometry"</span>: {
+        <span class="string">"type"</span>: <span class="string">"Point"</span>,
+        <span class="string">"coordinates"</span>: [<span class="number">-104.99404</span>, <span class="number">39.75621</span>]
+    }
+};
+
+<span class="comment">// Add GeoJSON object to map.</span>
+L.<span class="function">geoJSON</span>(geojsonFeature).<span class="function">addTo</span>(map);
+
+<span class="comment">// Create two line feature objects, set their vertex coordinates.</span>
+<span class="keyword">var</span> myLines = [{
+    <span class="string">"type"</span>: <span class="string">"LineString"</span>,
+    <span class="string">"coordinates"</span>: [[<span class="number">-100</span>, <span class="number">40</span>], [<span class="number">-105</span>, <span class="number">45</span>], [<span class="number">-110</span>, <span class="number">55</span>]]
+}, {
+    <span class="string">"type"</span>: <span class="string">"LineString"</span>,
+    <span class="string">"coordinates"</span>: [[<span class="number">-105</span>, <span class="number">40</span>], [<span class="number">-110</span>, <span class="number">45</span>], [<span class="number">-115</span>, <span class="number">55</span>]]
+}];
+
+<span class="comment">// Create myStyle variable, set color, weight, &amp; opacity.</span>
+<span class="keyword">var</span> myStyle = {
+    <span class="string">"color"</span>: <span class="string">"#ff7800"</span>,
+    <span class="string">"weight"</span>: <span class="number">5</span>,
+    <span class="string">"opacity"</span>: <span class="number">0.65</span>
+};
+
+<span class="comment">// Set myLines object to use style settings from myStyle variable.</span>
+L.<span class="function">geoJSON</span>(myLines, {
+    <span class="property">style</span>: myStyle
+}).<span class="function">addTo</span>(map);
+
+<span class="comment">// Create states polygon features, set properties and geometry.</span>
+<span class="keyword">var</span> states = [{
+    <span class="string">"type"</span>: <span class="string">"Feature"</span>,
+    <span class="string">"properties"</span>: {<span class="string">"party"</span>: <span class="string">"Republican"</span>},
+    <span class="string">"geometry"</span>: {
+        <span class="string">"type"</span>: <span class="string">"Polygon"</span>,
+        <span class="string">"coordinates"</span>: [[
+            [<span class="number">-104.05</span>, <span class="number">48.99</span>],
+            [<span class="number">-97.22</span>,  <span class="number">48.98</span>],
+            [<span class="number">-96.58</span>,  <span class="number">45.94</span>],
+            [<span class="number">-104.03</span>, <span class="number">45.94</span>],
+            [<span class="number">-104.05</span>, <span class="number">48.99</span>]
+        ]]
+    }
+}, {
+    <span class="string">"type"</span>: <span class="string">"Feature"</span>,
+    <span class="string">"properties"</span>: {<span class="string">"party"</span>: <span class="string">"Democrat"</span>},
+    <span class="string">"geometry"</span>: {
+        <span class="string">"type"</span>: <span class="string">"Polygon"</span>,
+        <span class="string">"coordinates"</span>: [[
+            [<span class="number">-109.05</span>, <span class="number">41.00</span>],
+            [<span class="number">-102.06</span>, <span class="number">40.99</span>],
+            [<span class="number">-102.03</span>, <span class="number">36.99</span>],
+            [<span class="number">-109.04</span>, <span class="number">36.99</span>],
+            [<span class="number">-109.05</span>, <span class="number">41.00</span>]
+        ]]
+    }
+}];
+
+<span class="comment">// Set states polygon style with fill color based on properties. Update map.</span>
+L.<span class="function">geoJSON</span>(states, {
+    <span class="property">style</span>: <span class="keyword">function</span>(feature) {
+        <span class="keyword">switch</span> (feature.<span class="property">properties</span>.<span class="property">party</span>) {
+            <span class="keyword">case</span> <span class="string">'Republican'</span>: <span class="keyword">return</span> {<span class="property">color</span>: <span class="string">"#ff0000"</span>};
+            <span class="keyword">case</span> <span class="string">'Democrat'</span>:   <span class="keyword">return</span> {<span class="property">color</span>: <span class="string">"#0000ff"</span>};
+        }
+    }
+}).<span class="function">addTo</span>(map);
+
+<span class="comment">// If a feature has a property named popupContent, attach popup features to them when clicked.</span>
+<span class="keyword">function</span> <span class="function">onEachFeature</span>(feature, layer) {
+    <span class="keyword">if</span> (feature.<span class="property">properties</span> &amp;&amp; feature.<span class="property">properties</span>.<span class="property">popupContent</span>) {
+        layer.<span class="function">bindPopup</span>(feature.<span class="property">properties</span>.<span class="property">popupContent</span>);
+    }
+}</div>
+        </div>
         
         <!-- External JavaScript libraries and scripts -->
         <!-- Leaflet JavaScript library - the core mapping functionality -->

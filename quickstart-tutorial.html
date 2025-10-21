@@ -21,25 +21,109 @@
 
         <!-- Internal styles for this specific tutorial page -->
         <style>
-            /* Ensure the map container takes up most of the viewport */
-            #mapid {
-                height: 80vh;
-                width: 100%;
-                margin: 10px auto;
-            }
-            
-            /* Style the tutorial description section */
-            .tutorial-info {
-                padding: 20px;
+            /* Reset and base styles */
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                margin: 0;
+                padding: 0;
                 background-color: #f5f5f5;
-                border-left: 4px solid #2196F3;
-                margin: 10px;
             }
             
-            /* Style the tutorial title */
+            /* Tutorial information section - clean and minimal */
+            .tutorial-info {
+                max-width: 800px;
+                margin: 20px auto;
+                padding: 30px;
+                background-color: white;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            /* Simple title styling */
             .tutorial-info h1 {
-                color: #1976D2;
-                margin-top: 0;
+                font-size: 1.8em;
+                color: #333;
+                margin: 0 0 10px 0;
+            }
+            
+            /* Subtitle or description */
+            .tutorial-info p {
+                color: #666;
+                line-height: 1.6;
+                margin-bottom: 15px;
+            }
+            
+            /* List styling */
+            .tutorial-info ul {
+                margin: 15px 0;
+                padding-left: 20px;
+            }
+            
+            .tutorial-info li {
+                margin-bottom: 8px;
+                color: #666;
+            }
+            
+            /* Map container takes up most of the viewport */
+            #mapid {
+                height: 70vh;
+                width: 100%;
+                max-width: 1200px;
+                margin: 20px auto;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            /* Code display section styling */
+            .code-section {
+                max-width: 1200px;
+                margin: 40px auto 20px auto;
+                padding: 30px;
+                background-color: white;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            .code-section h2 {
+                font-size: 1.5em;
+                color: #333;
+                margin: 0 0 20px 0;
+            }
+            
+            /* Code block container */
+            .code-block {
+                background-color: #f8f8f8;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                padding: 20px;
+                overflow-x: auto;
+                font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+                font-size: 14px;
+                line-height: 1.5;
+            }
+            
+            /* Syntax highlighting for JavaScript */
+            .code-block .comment {
+                color: #6a9955;
+                font-style: italic;
+            }
+            
+            .code-block .keyword {
+                color: #0000ff;
+                font-weight: bold;
+            }
+            
+            .code-block .string {
+                color: #a31515;
+            }
+            
+            .code-block .number {
+                color: #098658;
+            }
+            
+            .code-block .function {
+                color: #795e26;
+            }
+            
+            .code-block .property {
+                color: #001080;
             }
         </style>
     </head>
@@ -64,6 +148,59 @@
         <!-- Main container for the interactive Leaflet map -->
         <!-- The 'mapid' is referenced in the JavaScript to initialize the map -->
         <div id="mapid"></div>
+        
+        <!-- Code display section showing the JavaScript used in this tutorial -->
+        <div class="code-section">
+            <h2>JavaScript Code (quickstartTutorial.js)</h2>
+            <div class="code-block"><span class="comment">// Create map variable, set view to London, set zoom to 13.</span>
+<span class="keyword">var</span> map = L.<span class="function">map</span>(<span class="string">'mapid'</span>).<span class="function">setView</span>([<span class="number">51.505</span>, <span class="number">-0.09</span>], <span class="number">13</span>);
+
+<span class="comment">// Load OSM tilelayer to the map variable.</span>
+L.<span class="function">tileLayer</span>(<span class="string">'https://tile.openstreetmap.org/{z}/{x}/{y}.png'</span>, {
+    <span class="property">maxZoom</span>: <span class="number">18</span>,
+    <span class="property">attribution</span>: <span class="string">'&amp;copy; &lt;a href="http://www.openstreetmap.org/copyright"&gt;OpenStreetMap&lt;/a&gt;'</span>
+}).<span class="function">addTo</span>(map);
+
+<span class="comment">// Create marker object, add it to the map.</span>
+<span class="keyword">var</span> marker = L.<span class="function">marker</span>([<span class="number">51.5</span>, <span class="number">-0.09</span>]).<span class="function">addTo</span>(map);
+
+<span class="comment">// Create circle object, set its size and color, add it to the map.</span>
+<span class="keyword">var</span> circle = L.<span class="function">circle</span>([<span class="number">51.508</span>, <span class="number">-0.11</span>], {
+    <span class="property">color</span>: <span class="string">'red'</span>,
+    <span class="property">fillColor</span>: <span class="string">'#f03'</span>,
+    <span class="property">fillOpacity</span>: <span class="number">0.5</span>,
+    <span class="property">radius</span>: <span class="number">500</span>
+}).<span class="function">addTo</span>(map);
+
+<span class="comment">// Create triangular polygon object, set outer points, add it to the map.</span>
+<span class="keyword">var</span> polygon = L.<span class="function">polygon</span>([
+    [<span class="number">51.509</span>, <span class="number">-0.08</span>],
+    [<span class="number">51.503</span>, <span class="number">-0.06</span>],
+    [<span class="number">51.51</span>, <span class="number">-0.047</span>]
+]).<span class="function">addTo</span>(map);
+
+<span class="comment">// Bind popups to marker, circle, and polygon features. Set associated text.</span>
+marker.<span class="function">bindPopup</span>(<span class="string">"&lt;strong&gt;Hello world!&lt;/strong&gt;&lt;br /&gt;I am a popup."</span>).<span class="function">openPopup</span>();
+circle.<span class="function">bindPopup</span>(<span class="string">"I am a circle."</span>);
+polygon.<span class="function">bindPopup</span>(<span class="string">"I am a polygon."</span>);
+
+<span class="comment">// Create standalone popup object, set its location, add associated text, and add it to the map.</span>
+<span class="keyword">var</span> popup = L.<span class="function">popup</span>()
+    .<span class="function">setLatLng</span>([<span class="number">51.5</span>, <span class="number">-0.09</span>])
+    .<span class="function">setContent</span>(<span class="string">"I am a standalone popup."</span>)
+    .<span class="function">openOn</span>(map);
+
+<span class="comment">// Create onMapClick function, creating a popup that displays lat/long values on click events.</span>
+<span class="keyword">function</span> <span class="function">onMapClick</span>(e) {
+    popup
+        .<span class="function">setLatLng</span>(e.<span class="property">latlng</span>)
+        .<span class="function">setContent</span>(<span class="string">"You clicked the map at "</span> + e.<span class="property">latlng</span>.<span class="function">toString</span>())
+        .<span class="function">openOn</span>(map);
+}
+
+<span class="comment">// Load the onMapClick function to the map.</span>
+map.<span class="function">on</span>(<span class="string">'click'</span>, onMapClick);</div>
+        </div>
         
         <!-- External JavaScript libraries and scripts -->
         <!-- Leaflet JavaScript library - the core mapping functionality -->

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Standard HTML5 doctype and language declaration -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <!-- Page title for the tutorial index -->
+        <title>Leaflet Tutorials - Summer Heat Web App Preparation</title>
+
+        <!-- External stylesheet links -->
+        <!-- Custom CSS styles for the tutorial index page -->
+        <link rel="stylesheet" href="css/style.css">
+        
+        <!--[if IE<9]>
+            <!-- Fallback CSS for older Internet Explorer versions (IE 8 and below) -->
+            <link rel="stylesheet" href="css/style.ie.css">
+        <![endif]-->
+
+        <!-- Minimal internal styles for clean, simple design -->
+        <style>
+            /* Reset and base styles */
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+                line-height: 1.6;
+                color: #333;
+                background-color: #f5f5f5;
+                margin: 0;
+                padding: 40px 20px;
+            }
+            
+            /* Main container with max width */
+            .container {
+                max-width: 800px;
+                margin: 0 auto;
+                background-color: white;
+                padding: 40px;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            
+            /* Simple header styling */
+            h1 {
+                font-size: 2em;
+                margin-bottom: 10px;
+                color: #222;
+            }
+            
+            /* Subtitle styling */
+            .subtitle {
+                color: #666;
+                margin-bottom: 30px;
+                font-size: 1.1em;
+            }
+            
+            /* Introduction paragraph */
+            .intro {
+                margin-bottom: 40px;
+                padding-bottom: 30px;
+                border-bottom: 1px solid #e0e0e0;
+            }
+            
+            /* Tutorial list styling */
+            .tutorial-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+            }
+            
+            /* Individual tutorial item */
+            .tutorial-item {
+                margin-bottom: 30px;
+                padding-bottom: 30px;
+                border-bottom: 1px solid #e0e0e0;
+            }
+            
+            .tutorial-item:last-child {
+                border-bottom: none;
+            }
+            
+            /* Tutorial title styling */
+            .tutorial-item h2 {
+                font-size: 1.4em;
+                margin-bottom: 10px;
+                color: #333;
+            }
+            
+            /* Learning outcomes heading */
+            .tutorial-item h3 {
+                font-size: 1em;
+                font-weight: 600;
+                margin-top: 15px;
+                margin-bottom: 10px;
+                color: #555;
+            }
+            
+            /* Learning outcomes list */
+            .tutorial-item ul {
+                margin: 0 0 15px 20px;
+                padding: 0;
+            }
+            
+            .tutorial-item li {
+                margin-bottom: 5px;
+                color: #666;
+            }
+            
+            /* Simple link styling */
+            .tutorial-link {
+                display: inline-block;
+                margin-top: 10px;
+                color: #0066cc;
+                text-decoration: none;
+                font-weight: 500;
+            }
+            
+            .tutorial-link:hover {
+                text-decoration: underline;
+            }
+            
+            /* Footer styling */
+            .footer {
+                margin-top: 40px;
+                padding-top: 30px;
+                border-top: 1px solid #e0e0e0;
+                text-align: center;
+                color: #666;
+            }
+            
+            .footer a {
+                color: #0066cc;
+                text-decoration: none;
+            }
+            
+            .footer a:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Main container for the entire tutorial index page -->
+        <div class="container">
+            
+            <!-- Header with simple title -->
+            <h1>Leaflet Tutorials</h1>
+            <p class="subtitle">Preparation for the Summer Heat Web Application</p>
+            
+            <!-- Brief introduction explaining the purpose -->
+            <div class="intro">
+                <p>
+                    These are the final products of tutorials completed in preparation for building the 
+                    Summer Heat Web Application. Each tutorial focuses on specific aspects of the 
+                    Leaflet mapping library.
+                </p>
+            </div>
+            
+            <!-- List of tutorials with learning outcomes -->
+            <ul class="tutorial-list">
+                
+                <!-- Tutorial 1: Quickstart -->
+                <li class="tutorial-item">
+                    <h2>1. Quickstart Tutorial</h2>
+                    <p>Fundamentals of Leaflet mapping.</p>
+                    
+                    <h3>Learning Outcomes:</h3>
+                    <ul>
+                        <li>Map initialization and configuration</li>
+                        <li>Adding tile layers from OpenStreetMap</li>
+                        <li>Creating markers, circles, and polygons</li>
+                        <li>Binding interactive popups to features</li>
+                        <li>Handling map click events</li>
+                    </ul>
+                    
+                    <a href="quickstart-tutorial.html" class="tutorial-link">View Tutorial →</a>
+                </li>
+                
+                <!-- Tutorial 2: GeoJSON -->
+                <li class="tutorial-item">
+                    <h2>2. GeoJSON Tutorial</h2>
+                    <p>Working with geographic data formats.</p>
+                    
+                    <h3>Learning Outcomes:</h3>
+                    <ul>
+                        <li>Understanding GeoJSON structure (points, lines, polygons)</li>
+                        <li>Creating custom styled markers and shapes</li>
+                        <li>Applying data-driven styling based on properties</li>
+                        <li>Filtering features conditionally</li>
+                        <li>Working with feature attributes and metadata</li>
+                    </ul>
+                    
+                    <a href="geojson-tutorial.html" class="tutorial-link">View Tutorial →</a>
+                </li>
+                
+                <!-- Tutorial 3: Adapted -->
+                <li class="tutorial-item">
+                    <h2>3. Adapted Tutorial</h2>
+                    <p>Loading external data sources.</p>
+                    
+                    <h3>Learning Outcomes:</h3>
+                    <ul>
+                        <li>Using fetch() API to load external GeoJSON files</li>
+                        <li>Working with asynchronous JavaScript and promises</li>
+                        <li>Organizing code with functions (createMap, getData)</li>
+                        <li>Generating dynamic popups from feature properties</li>
+                        <li>Handling DOM events for proper initialization</li>
+                    </ul>
+                    
+                    <a href="adapted-tutorial.html" class="tutorial-link">View Tutorial →</a>
+                </li>
+                
+            </ul>
+            
+            <!-- Footer with link to main application -->
+            <div class="footer">
+                <p><a href="index.html">View the Final Summer Heat Application</a></p>
+            </div>
+            
+        </div>
+    </body>
+</html>
