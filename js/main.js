@@ -147,9 +147,9 @@ function createSequenceControls(attributes){
     // Add the custom control instance to the map.
     map.addControl(new SequenceControl());   
 
-    // Initialize slider attributes.
-    // TIP: these bounds assume 8 attributes; for dynamic data, prefer attributes.length - 1.
-    document.querySelector(".range-slider").max = 7;
+    // Initialize slider attributes dynamically from the data.
+    var lastIndex = attributes.length - 1;
+    document.querySelector(".range-slider").max = lastIndex;
     document.querySelector(".range-slider").min = 0;
     document.querySelector(".range-slider").value = 0;
     document.querySelector(".range-slider").step = 1;
@@ -165,17 +165,17 @@ function createSequenceControls(attributes){
             L.DomEvent.preventDefault(e);
             
             // Read current index from the slider.
-            var index = document.querySelector('.range-slider').value;
+            var index = parseInt(document.querySelector('.range-slider').value, 10);
 
             // Move forward or backward through the attributes array.
             if (step.id == 'forward'){
-                index++;
+                index = index + 1;
                 // Wrap to the start if we go past the last index.
-                index = index > 7 ? 0 : index;
+                index = index > lastIndex ? 0 : index;
             } else if (step.id == 'reverse'){
-                index--;
+                index = index - 1;
                 // Wrap to the end if we go below the first index.
-                index = index < 0 ? 6 : index;
+                index = index < 0 ? lastIndex : index;
             };
 
             // Update the slider UI and map symbols to the new index.
@@ -186,7 +186,7 @@ function createSequenceControls(attributes){
 
     // When the slider is dragged, update the map to the corresponding attribute index.
     document.querySelector('.range-slider').addEventListener('input', function(){
-        var index = this.value;
+        var index = parseInt(this.value, 10);
         updateProportionalSymbols(attributes[index]);
     });
 };
@@ -194,13 +194,23 @@ function createSequenceControls(attributes){
 // Determine overall min, max, and mean across all Temp_* attributes in the dataset.
 function calculateStatistics(data){
     var allValues = [];
-    // Loop through each feature (city) and gather all year values.
-    for(var city of data.features){
-        for(var year = 2018; year <= 2025; year++){
+    // Loop through each feature (city) and gather all Temp_* values.
+    data.features.forEach(function(feature){
+        var props = feature.properties;
+        for (var key in props) {
+            if (key.indexOf("Temp") > -1) {
+                var val = Number(props[key]);
+                if (!isNaN(val)) {
+                    allValues.push(val);
+                }
+            }
+        }
+    });
+
     // Find the minimum, maximum, and mean value of the array. Store in global variable.
     dataStats.min = Math.min(...allValues);
     dataStats.max = Math.max(...allValues);
-    var sum = allValues.reduce(function(a, b){return a+b;});
+    var sum = allValues.reduce(function(a, b){return a+b;}, 0);
     dataStats.mean = sum / allValues.length;
 };
 
@@ -209,7 +219,8 @@ function calcProportionalRadius(attributeValue) {
     // Constant factor adjusts symbol sizes evenly.
     var minRadius = 6;
     // Use Flannery Apperance Compensation formula.
-    var radius = 1.0083 * Math.pow(attributeValue/dataStats.min,0.5715) * minRadius;
+    var safeMin = Math.max(dataStats.min || 0.0001, 0.0001);
+    var radius = 1.0083 * Math.pow(attributeValue/safeMin,0.5715) * minRadius;
 
     return radius;
 };
@@ -259,8 +270,7 @@ function createProportionalSymbols(data, attributes){
     L.geoJson(data, {
         pointToLayer: function(feature, latlng){
             return pointToLayer(feature, latlng, attributes);
-        },
-        // EXTRA COMMA ABOVE?
+        }
     }).addTo(map);
 };
 
@@ -331,7 +341,7 @@ function updateProportionalSymbols(attribute) {
         " degrees F</p>";
 
       // Update the popup with new content.
-      popup = layer.getPopup();
+      var popup = layer.getPopup();
       popup.setContent(popupContent).update();
     }
   });
