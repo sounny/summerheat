@@ -115,8 +115,10 @@ function createSequenceControls(attributes){
             container.insertAdjacentHTML('beforeend', '<button class="step" id="reverse" title="Reverse"><img src="img/reverse.png"></button>'); 
             container.insertAdjacentHTML('beforeend', '<button class="step" id="forward" title="Forward"><img src="img/forward.png"></button>');
 
-            // Disable mouse event listeners for the container.
+            // Disable mouse event listeners for the container to prevent map interaction.
             L.DomEvent.disableClickPropagation(container);
+            // Disable scroll zoom when mouse is over the controls.
+            L.DomEvent.disableScrollPropagation(container);
 
             return container;
         }
@@ -136,7 +138,11 @@ function createSequenceControls(attributes){
     // Loop through each step.
     steps.forEach(function(step){
         // Add event listener for each step.
-        step.addEventListener("click", function(){
+        L.DomEvent.on(step, 'click', function(e){
+            // Prevent the click event from bubbling up to the map.
+            L.DomEvent.stopPropagation(e);
+            L.DomEvent.preventDefault(e);
+            
             var index = document.querySelector('.range-slider').value;
             // Increment or decrement button values.
             if (step.id == 'forward'){

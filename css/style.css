@@ -15,34 +15,58 @@
     line-height: 42px;
 }
 
+/* Sequence control container - positioned at bottom left of map */
 .sequence-control-container {  
     width: 350px;  
-    height: 30px;  
+    /* Increased height to properly accommodate buttons and slider without squishing */
+    height: 60px;  
     background-color: rgba(255,255,255,0.8);  
     padding: 10px;  
-    line-height: 45px;  
+    /* Line height matches button height for proper vertical alignment */
+    line-height: 40px;  
     text-align: center;  
-    border: solid gray 1px;  
+    border: solid gray 1px;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.4);
 }
 
 .range-slider {  
-    width: 250px;  
+    width: 250px;
+    /* Align slider vertically with the buttons */
+    vertical-align: middle;
 }  
 
 .step {  
-    width: 40%;  
+    /* Fixed width for consistent button sizing */
+    width: 40px;
+    /* Fixed height to maintain proper aspect ratio for icons */
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    /* Align buttons vertically with slider */
+    vertical-align: middle;
+    /* Display as inline-block to respect width/height and allow float */
+    display: inline-block;
 }  
 
 .step img {  
+    /* Full width of button container */
     width: 100%;
-    height: auto; 
+    /* Auto height maintains original icon aspect ratio - prevents squishing */
+    height: auto;
+    /* Ensure image aligns properly within button */
+    vertical-align: middle;
 }  
 
 #forward {  
+    /* Position forward button on right side of slider */
     float: right;  
 }  
 
 #reverse {  
+    /* Position reverse button on left side of slider */
     float: left;  
 }
 
