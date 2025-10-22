@@ -1,11 +1,13 @@
 /*Add CSS styles here*/
 
+/* Styles for the main map container */
 #mapid {    
     height: 400px;    
     width: 100%;
     display: inline-block;
 }
 
+/* Styles for the side panel */
 #panel {    
     width: 25%;    
     padding: 20px;
@@ -28,14 +30,24 @@
     border: solid gray 1px;
     border-radius: 4px;
     box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+    /* Use flexbox for robust alignment */
+    display: flex;
+    /* Center items vertically */
+    align-items: center;
+    /* Distribute space between items */
+    justify-content: space-between;
 }
 
+/* Styles for the range slider element */
 .range-slider {  
-    width: 250px;
-    /* Align slider vertically with the buttons */
-    vertical-align: middle;
+    /* Allow slider to grow and fill space */
+    flex-grow: 1;
+    /* Order slider between the two buttons */
+    order: 2;
+    margin: 0 10px; /* Add some space around the slider */
 }  
 
+/* Styles for the step buttons (forward/reverse) */
 .step {  
     /* Fixed width for consistent button sizing */
     width: 40px;
@@ -49,8 +61,11 @@
     vertical-align: middle;
     /* Display as inline-block to respect width/height and allow float */
     display: inline-block;
+    /* Prevent image overflow to ensure full button area is clickable */
+    overflow: hidden;
 }  
 
+/* Styles for the images within the step buttons */
 .step img {  
     /* Full width of button container */
     width: 100%;
@@ -60,16 +75,40 @@
     vertical-align: middle;
 }  
 
+/* Flexbox order for the forward button */
 #forward {  
-    /* Position forward button on right side of slider */
-    float: right;  
+    /* Remove float and use flexbox order */
+    order: 3;
 }  
 
+/* Flexbox order for the reverse button */
 #reverse {  
-    /* Position reverse button on left side of slider */
-    float: left;  
+    /* Remove float and use flexbox order */
+    order: 1;
 }
 
+/* Styles for the legend container */
+.legend-control-container {
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: solid gray 1px;
+    border-radius: 4px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+}
+
+/* Styles for the legend title text */
+.temporalLegend {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+/* Styles for the SVG legend graphic */
+#attribute-legend {
+    display: block;
+    margin: 0 auto;
+}
+
+/* Styles for the paragraph elements within Leaflet popups */
 .leaflet-popup-content p {
     margin: 0.2em 0;
 }

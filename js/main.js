@@ -1,192 +1,202 @@
+/*
+  Summer Heat Map Application
+  - Loads GeoJSON time-series temperature data and visualizes it as proportional circle markers on a Leaflet map.
+  - Includes a time (year) sequence control, and an explanatory legend that scales with data.
+  - This file is heavily commented to help beginners understand the flow and key Leaflet concepts.
+*/
+
 /* Map of GeoJSON data from time_series.geojson */
-// Declare global variables.
+// Declare global variables used across functions.
+// 'map' holds the Leaflet map instance; 'dataStats' stores global stats for legend scaling.
 var map;
 var dataStats = {};
 
 // Create createMap function.
 function createMap(){
+    // Create a Leaflet map in the div with id="mapid".
+    // Center at [0,0] with a world view zoom. These can be adjusted for your dataset.
     console.log("starting createMap.")
-    // Configure the map.
     map = L.map('mapid', {
         center: [0, 0],
         zoom: 1
     });
     
-    // Load OSM base tilelayer to map.
+    // Add a base map (OpenStreetMap tiles). You can swap to other providers if desired.
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     }).addTo(map);
 
-    // Call getData function to load data to map.
+    // Kick off the data pipeline: load data -> process -> draw symbols -> controls + legend
     getData(map);
     console.log("createMap complete.")
 };
 
 // Build a legend based on feature attributes.
 function createLegend(attributes){
-    // Create legendControl variable.
+    // Leaflet custom control for the legend (bottom-right corner by default).
     var LegendControl = L.Control.extend({
         options: {
             position: 'bottomright'
         },
 
         onAdd: function () {
-            // create the control container with a particular class name
+            // The control is just a DOM element with custom content.
             var container = L.DomUtil.create('div', 'legend-control-container');
 
-            container.innerHTML = '<p class="temporalLegend">Average August temperature in <span class="year">2018</span></p>';
+            // Title for the legend. <span class="year"> gets replaced as the year changes.
+            container.innerHTML = '<p class="temporalLegend">Average August<br>temperature in <span class="year">2018</span></p>';
 
-            // Create svg variable.
-            var svg = '<svg id="attribute-legend" width="130px" height="130px">';
+            // SVG used to draw proportional circles and their labels.
+            // Width/height tuned to avoid overlap and align items in rows.
+            var svg = '<svg id="attribute-legend" width="180px" height="140px">';
 
-            // Create array of circle names to base loop on.
+            // We render rows from top to bottom: largest (max), mean, then smallest (min).
             var circles = ["max", "mean", "min"];
+            // Fixed Y positions so circles line up neatly with their text labels.
+            var rowYs = [30, 70, 110];
 
-            //Step 2: loop to add each circle and text to svg string
+            // Loop through each row, create a circle and a text label.
             for (var i=0; i<circles.length; i++){
+                var key = circles[i];
+                // Radius is derived from global stats using the same proportional formula.
+                var radius = calcProportionalRadius(dataStats[key]);  
+                var cy = rowYs[i];
 
-                // Assign radius and cy values.
-                var radius = calcProportionalRadius(dataStats[circles[i]]);  
-                var cy = 59 - radius;       
-
-                // Continue building the svg string.
-                svg += '<circle class="legend-circle" id="' + circles[i] + '" r="' + radius + '"cy="' + cy + '" fill="#F47821" fill-opacity="0.8" stroke="#000000" cx="65"/>';
+                // Draw the circle for this row.
+                svg += '<circle class="legend-circle" id="' + key + '" r="' + radius + '" cy="' + cy + '" fill="#F47821" fill-opacity="0.8" stroke="#000000" cx="30"/>';
             
-                // Evenly space out labels.  
-                var textY = i * 20 + 20;
+                // Add a label in the same row, vertically centered with the circle.
+                var textY = rowYs[i];
+                svg += '<text id="' + key + '-text" x="70" y="' + textY + '" dominant-baseline="middle">' + (Math.round(dataStats[key]*100)/100) + '° F' + '</text>';
+            }  
 
-                // Continue building the svg string.     
-                svg += '<text id="' + circles[i] + '-text" x="65" y="' + textY + '">' + Math.round(dataStats[circles[i]]*100)/100 + "° F" + '</text>';
-            };  
-
-            // Close the svg string.
+            // Close the SVG and add it to the control container.
             svg += "</svg>";
-
-            // Add attribute legend svg to container.
             container.insertAdjacentHTML('beforeend',svg);
 
             return container;
         }
     });
 
+    // Add the legend control to the map.
     map.addControl(new LegendControl());
 };
 
-// Update the legend based on attribute values.
+// Update the legend based on attribute values (called whenever the year changes).
 function updateLegend(attribute) {
-    // Load the correct year based on selection.
+    // Update the year displayed in the legend title.
     var year = attribute.split("_")[1];
-    // Replace legend content.
     document.querySelector("span.year").innerHTML = year;
 
-    // Load circleValues based on attribute values.
+    // Compute the current max/mean/min for the selected attribute (year),
+    // so the legend reflects the current data being shown on the map.
     var circleValues = getCircleValues(attribute);
 
-    // Loop through each key in the circleValues.
+    // Fixed row centers (must match positions used in createLegend).
+    var rowYMap = { max: 30, mean: 70, min: 110 };
+
+    // Update each legend circle and its label.
     for (var key in circleValues) {
-        // Load radius with proportional radius values for each circle value.
         var radius = calcProportionalRadius(circleValues[key]);
-        // Set the cy attribute to 59 minus the radius value.
-        document.querySelector("#" + key).setAttribute("cy", 59 - radius);
-        // Set the r attribute to the radius value.
+        var cy = rowYMap[key]; // keep the same row alignment regardless of radius
+        document.querySelector("#" + key).setAttribute("cy", cy);
         document.querySelector("#" + key).setAttribute("r", radius)
 
-        // Set the text content.
+        // Update the label text with the newly computed value.
         document.querySelector("#" + key + "-text").textContent = Math.round(circleValues[key] * 100) / 100 + "° F";
     }
 };
 
 // Create a slider object for sequence controls.
 function createSequenceControls(attributes){   
-    // Create Sequence Control variable.
+    // NOTE for learners:
+    // We create a Leaflet control that contains a range slider and two buttons.
+    // This control is added to the map and updates the visualization when users interact with it.
+
+    // TODO: Investigate persistent issues with button click events.
+    // The 'forward' and 'reverse' buttons are still not consistently responsive.
+    // This may be due to a conflict with Leaflet's map-based event listeners.
+    // A potential solution could be to re-evaluate the event propagation logic
+    // or the structure of the control container itself.
+
+    // Custom Leaflet control class.
     var SequenceControl = L.Control.extend({
         options: {
             position: 'bottomleft'
         },
 
         onAdd: function () {
-            // Create the control container div and set ID.
+            // Build the control container and its elements (slider + buttons).
             var container = L.DomUtil.create('div', 'sequence-control-container');
 
-            // Create the range input element (slider).
+            // Range slider for selecting the attribute index (year).
             container.insertAdjacentHTML('beforeend', '<input class="range-slider" type="range">')
 
-            // Create skip buttons.
+            // Navigation buttons (reverse / forward years).
             container.insertAdjacentHTML('beforeend', '<button class="step" id="reverse" title="Reverse"><img src="img/reverse.png"></button>'); 
             container.insertAdjacentHTML('beforeend', '<button class="step" id="forward" title="Forward"><img src="img/forward.png"></button>');
 
-            // Disable mouse event listeners for the container to prevent map interaction.
+            // Prevent interaction inside the control from triggering map pan/zoom.
             L.DomEvent.disableClickPropagation(container);
-            // Disable scroll zoom when mouse is over the controls.
             L.DomEvent.disableScrollPropagation(container);
 
             return container;
         }
     });
 
+    // Add the custom control instance to the map.
     map.addControl(new SequenceControl());   
 
-    // Set the slider attributes.
+    // Initialize slider attributes.
+    // TIP: these bounds assume 8 attributes; for dynamic data, prefer attributes.length - 1.
     document.querySelector(".range-slider").max = 7;
     document.querySelector(".range-slider").min = 0;
     document.querySelector(".range-slider").value = 0;
     document.querySelector(".range-slider").step = 1;
 
-    // Set the steps attribute.
+    // Grab button elements for attaching events.
     var steps = document.querySelectorAll('.step');
 
-    // Loop through each step.
+    // Add click handlers to each button using Leaflet's event helpers to avoid map interference.
     steps.forEach(function(step){
-        // Add event listener for each step.
         L.DomEvent.on(step, 'click', function(e){
-            // Prevent the click event from bubbling up to the map.
+            // Stop the event from bubbling up to the map and cancel default behavior.
             L.DomEvent.stopPropagation(e);
             L.DomEvent.preventDefault(e);
             
+            // Read current index from the slider.
             var index = document.querySelector('.range-slider').value;
-            // Increment or decrement button values.
+
+            // Move forward or backward through the attributes array.
             if (step.id == 'forward'){
                 index++;
-                // If past the last attribute, wrap around to first attribute.
+                // Wrap to the start if we go past the last index.
                 index = index > 7 ? 0 : index;
             } else if (step.id == 'reverse'){
                 index--;
-                // If past the first attribute, wrap around to last attribute.
+                // Wrap to the end if we go below the first index.
                 index = index < 0 ? 6 : index;
             };
 
-            // Update the slider with new index value.
+            // Update the slider UI and map symbols to the new index.
             document.querySelector('.range-slider').value = index;
-
-            // Pass new attribute to update proportional symbols.
             updateProportionalSymbols(attributes[index]);
         })
     });
 
-    // Add input listener for slider.
+    // When the slider is dragged, update the map to the corresponding attribute index.
     document.querySelector('.range-slider').addEventListener('input', function(){
-        // Load the new index value.
         var index = this.value;
-
-        // Pass new attribute to update proportional symbols.
         updateProportionalSymbols(attributes[index]);
     });
 };
 
-// Determine the minimum value from an array of numbers.
+// Determine overall min, max, and mean across all Temp_* attributes in the dataset.
 function calculateStatistics(data){
-    // Create empty array to store all data values.
     var allValues = [];
-    // Loop through each row.
+    // Loop through each feature (city) and gather all year values.
     for(var city of data.features){
-        // Loop through data value
         for(var year = 2018; year <= 2025; year++){
-              // Load value for current year.
-              var value = city.properties["Temp_" + String(year)];
-              // Append value to array.
-              allValues.push(value);
-        };
-    };
     // Find the minimum, maximum, and mean value of the array. Store in global variable.
     dataStats.min = Math.min(...allValues);
     dataStats.max = Math.max(...allValues);
